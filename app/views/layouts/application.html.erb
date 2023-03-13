@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TheRecord</title>
+    <title><%= @title ? @title : "update me now..."%> — TheRecord</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -13,5 +13,6 @@
   <body class="container">
   <%= render 'shared/nav' %>
     <%= yield %>
+    <%= render 'shared/footer' %>
   </body>
 </html>
