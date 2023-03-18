@@ -2,6 +2,7 @@ class BusinessesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_business, only: %i[ show edit update destroy ]
   before_action :set_auth, only: %i[ show edit update destroy ]
+  before_action :check_admin, only: [:edit, :update, :destroy]
 
   # GET /businesses or /businesses.json
   def index
@@ -93,6 +94,13 @@ class BusinessesController < ApplicationController
       unless @business.users.include?(current_user)
         redirect_to "/404"
         return
+      end
+    end
+
+    def check_admin
+      unless @business.members.find_by(user_id: current_user.id, roles: :admin).present?
+        flash[:alert] = "You do not have permission to perform this action."
+        redirect_to businesses_path
       end
     end
 

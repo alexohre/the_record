@@ -1,17 +1,18 @@
 
-<h3>Invite staff</h3>
+<% if @business.members.find_by(user_id: current_user.id).try(:is_admin?) %>
+  <h3>Invite staff</h3>
+  <%= form_with(model: [@business, User.new], url: business_invite_path(@business), class: "row g-2 align-items-center") do |f| %>
+    <div class="col-sm-4 mb-2">
+      <%= f.email_field :email, class: 'form-control', placeholder: "Email Address" %>
+    </div>
+    <div class="col-sm-2 mb-2">
+      <%= f.select :roles, options_for_select(Member.roles.keys), {}, class: 'form-control' %>
+    </div>
+    <div class="col-sm-4 mb-2">
+      <%= f.submit "Send invitation", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 
-
-<%= form_with(model: [@business, User.new], url: business_invite_path(@business), class: "row g-2 align-items-center") do |f| %>
-  <div class="col-sm-4 mb-2">
-    <%= f.email_field :email, class: 'form-control', placeholder: "Email Address" %>
-  </div>
-  <div class="col-sm-2 mb-2">
-    <%= f.select :roles, options_for_select(Member.roles.keys), {}, class: 'form-control' %>
-  </div>
-  <div class="col-sm-4 mb-2">
-    <%= f.submit "Send invitation", class: "btn btn-primary" %>
-  </div>
 <% end %>
 
 
@@ -33,9 +34,15 @@
          <% @business.members.each do |member| %>
           <p><%= member.user.email %> - <span class="badge bg-primary"> <%= member.roles.capitalize %></span></p>
          <% end %>
-        <%= link_to "Edit business", edit_business_path(@business), class: "btn btn-success" %> 
-        <%= link_to "Back", businesses_path, class: "btn btn-secondary" %>
-        <%= link_to "Delete", @business, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure! #{@business.name} will be deleted"} %>
+
+         <% if @business.members.find_by(user_id: current_user.id).try(:is_admin?) %>
+          <%= link_to "Edit business", edit_business_path(@business), class: "btn btn-success" %>
+          <%= link_to "Back", businesses_path, class: "btn btn-secondary" %>
+          <%= link_to "Delete", @business, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure! #{@business.name} will be deleted"} %>
+          <% else %>
+          <%= link_to "Back", businesses_path, class: "btn btn-secondary" %>
+         <% end %>
+         
       </div>
     </div>
   </div>
