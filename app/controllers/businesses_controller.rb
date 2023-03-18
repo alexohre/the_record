@@ -1,6 +1,7 @@
 class BusinessesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_business, only: %i[ show edit update destroy ]
+  before_action :set_auth, only: %i[ show edit update destroy ]
 
   # GET /businesses or /businesses.json
   def index
@@ -9,6 +10,7 @@ class BusinessesController < ApplicationController
 
   # GET /businesses/1 or /businesses/1.json
   def show
+    @title = @business.name
     @member = @business.members.find_by(user_id: current_user.id)
   end
 
@@ -62,6 +64,13 @@ class BusinessesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_auth
+      unless @business.users.include?(current_user)
+        redirect_to "/404"
+        return
+      end
+    end
+
     def set_business
       @business = Business.find(params[:id])
     end
