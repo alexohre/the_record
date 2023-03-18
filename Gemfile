@@ -73,3 +73,5 @@ gem "devise", "~> 4.9"
 gem "letter_opener", "~> 1.8"
 
 gem "devise_invitable", "~> 2.0"
+
+gem "friendly_id", "~> 5.5"

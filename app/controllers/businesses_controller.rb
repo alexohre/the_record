@@ -26,25 +26,44 @@ class BusinessesController < ApplicationController
   end
 
   def invite
-    # binding.b
     @business = Business.find(params[:business_id])
     email = invite_params[:email]
-    user = User.find_by_email(email)
 
-    if user.present?
-      @business.members.create(user: user, roles: params[:user][:roles])
-      redirect_to business_path(@business), notice: "User has been invited successfully"
+    if email == current_user.email
+      flash[:alert] = "You can't invite yourself."
+      redirect_to business_path(@business)
     else
-      new_user = User.invite!({email: email}, current_user)
-      if new_user.persisted?
-        @business.members.create(user: new_user, roles: params[:user][:roles])
-        flash[:notice] = "An invitation email has been sent to #{email}."
-        redirect_to business_path(@business)
+      user = User.find_by_email(email)
+
+      if user.present?
+        @business.members.create(user: user, roles: params[:user][:roles])
+        redirect_to business_path(@business), notice: "User has been invited successfully"
       else
-        flash[:alert] = "Error! Please try again."
-        redirect_to business_path(@business)
+        new_user = User.invite!({email: email}, current_user)
+        if new_user.persisted?
+          @business.members.create(user: new_user, roles: params[:user][:roles])
+          flash[:notice] = "An invitation email has been sent to #{email}."
+          redirect_to business_path(@business)
+        else
+          flash[:alert] = "Error! Please try again."
+          redirect_to business_path(@business)
+        end
       end
     end
+  end
+
+  def resend_invitation
+    @business = Business.friendly.find(params[:business_id])
+    @member = @business.members.find(params[:member_id])
+
+    if @member.user.invitation_sent_at
+      @member.user.invite!
+      flash[:notice] = "Invitation has been re-sent to #{@member.user.email}."
+    else
+      flash[:alert] = "User has already accepted the invitation."
+    end
+
+    redirect_to business_path(@business)
   end
 
 

@@ -1,5 +1,5 @@
 
-<% if @business.members.find_by(user_id: current_user.id).try(:is_admin?) %>
+<% if @business.members.exists?(user_id: current_user.id, roles: 'admin') %>
   <h3>Invite staff</h3>
   <%= form_with(model: [@business, User.new], url: business_invite_path(@business), class: "row g-2 align-items-center") do |f| %>
     <div class="col-sm-4 mb-2">
@@ -16,7 +16,8 @@
 <% end %>
 
 
-<br><br>
+<br>
+<br>
 
 
 
@@ -32,10 +33,18 @@
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
          <h5><strong>Users</strong></h5>
          <% @business.members.each do |member| %>
+          <% if member.user.invitation_token.present? && member.user.invitation_accepted_at.nil? %>
+            <p><%= member.user.email %> - <span class="badge bg-primary"> <%= member.roles.capitalize %> </span> ~ <span class="badge bg-warning"> Pending </span> 
+            <% if @business.members.exists?(user_id: current_user.id, roles: "admin") %>
+             <%= link_to "Resend invitation", business_resend_invitation_path(@business, member.id), class: "ms-2 ", data: {turbo_method: :post} %> 
+             <% end %>
+             </p>
+          <% else %>
           <p><%= member.user.email %> - <span class="badge bg-primary"> <%= member.roles.capitalize %></span></p>
+          <% end %>
          <% end %>
 
-         <% if @business.members.find_by(user_id: current_user.id).try(:is_admin?) %>
+         <% if @business.members.exists?(user_id: current_user.id, roles: 'admin') %>
           <%= link_to "Edit business", edit_business_path(@business), class: "btn btn-success" %>
           <%= link_to "Back", businesses_path, class: "btn btn-secondary" %>
           <%= link_to "Delete", @business, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure! #{@business.name} will be deleted"} %>
