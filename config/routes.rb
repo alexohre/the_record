@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :businesses do
     resources :members
+    post '/invite', to: 'businesses#invite', as: :invite
   end
   devise_for :users
   

@@ -1,13 +1,19 @@
 
 <h3>Invite staff</h3>
-<div class="row">
-  <div class="col-md-6">
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+
+
+<%= form_with(model: [@business, User.new], url: business_invite_path(@business), class: "row g-2 align-items-center") do |f| %>
+  <div class="col-sm-4 mb-2">
+    <%= f.email_field :email, class: 'form-control', placeholder: "Email Address" %>
   </div>
-</div>
+  <div class="col-sm-2 mb-2">
+    <%= f.select :roles, options_for_select(Member.roles.keys), {}, class: 'form-control' %>
+  </div>
+  <div class="col-sm-4 mb-2">
+    <%= f.submit "Send invitation", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
 
 <br><br>
 
@@ -24,7 +30,9 @@
         <h3 class="card-title"><strong><%= @business.name %></strong> </h3>
         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
          <h5><strong>Users</strong></h5>
-         <p><%= @member.user.email %> <span class="badge bg-primary"> <%= @member.roles.capitalize %></span></p>
+         <% @business.members.each do |member| %>
+          <p><%= member.user.email %> - <span class="badge bg-primary"> <%= member.roles.capitalize %></span></p>
+         <% end %>
         <%= link_to "Edit business", edit_business_path(@business), class: "btn btn-success" %> 
         <%= link_to "Back", businesses_path, class: "btn btn-secondary" %>
         <%= link_to "Delete", @business, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure! #{@business.name} will be deleted"} %>

@@ -5,6 +5,7 @@ class BusinessesController < ApplicationController
 
   # GET /businesses or /businesses.json
   def index
+    @title = current_user.email + " Business"
     @businesses = current_user.business
   end
 
@@ -22,6 +23,30 @@ class BusinessesController < ApplicationController
   # GET /businesses/1/edit
   def edit
   end
+
+  def invite
+    # binding.b
+    @business = Business.find(params[:business_id])
+    email = invite_params[:email]
+    user = User.find_by_email(email)
+
+    if user.present?
+      @business.members.create(user: user, roles: params[:user][:roles])
+      redirect_to business_path(@business), notice: "User has been invited successfully"
+    else
+      new_user = User.invite!({email: email}, current_user)
+      if new_user.persisted?
+        @business.members.create(user: new_user, roles: params[:user][:roles])
+        flash[:notice] = "An invitation email has been sent to #{email}."
+        redirect_to business_path(@business)
+      else
+        flash[:alert] = "Error! Please try again."
+        redirect_to business_path(@business)
+      end
+    end
+  end
+
+
 
   # POST /businesses or /businesses.json
   def create
@@ -69,6 +94,10 @@ class BusinessesController < ApplicationController
         redirect_to "/404"
         return
       end
+    end
+
+    def invite_params
+      params.require(:user).permit(:email, :roles)
     end
 
     def set_business
