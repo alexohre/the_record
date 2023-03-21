@@ -14,6 +14,8 @@ class BusinessesController < ApplicationController
   def show
     @title = @business.name
     @member = @business.members.find_by(user_id: current_user.id)
+    @members = @business.members
+    @email = ""
   end
 
   # GET /businesses/new
@@ -52,6 +54,8 @@ class BusinessesController < ApplicationController
     end
   end
 
+
+
   def resend_invitation
     @business = Business.friendly.find(params[:business_id])
     @member = @business.members.find(params[:member_id])
@@ -65,6 +69,50 @@ class BusinessesController < ApplicationController
 
     redirect_to business_path(@business)
   end
+
+
+  def remove_member
+    @business = Business.find(params[:business_id])
+    member = @business.members.find(params[:id])
+    user = member.user
+
+    if user == current_user
+      flash[:alert] = "You can't remove yourself from the business."
+    elsif member.destroy
+      flash[:notice] = "#{user.email} has been removed from the business."
+    else
+      flash[:alert] = "Error! Please try again."
+    end
+
+    redirect_to business_path(@business)
+  end
+
+
+  
+  def cancel_invitation
+    @business = Business.find(params[:business_id])
+    email = params[:email]
+
+    if email.present?
+      user = User.find_by_email(email)
+      if user.present?
+        if user.invitation_accepted_at.present?
+          flash[:alert] = "User has already accepted the invitation."
+        else
+          user.cancel_invitation(@business)
+          flash[:notice] = "Invitation for #{email} has been canceled."
+        end
+      else
+        flash[:alert] = "#{email} is not a registered user."
+      end
+    else
+      flash[:alert] = "Email is required."
+    end
+
+    redirect_to business_path(@business)
+  end
+
+
 
 
 
@@ -118,8 +166,8 @@ class BusinessesController < ApplicationController
 
     def check_admin
       unless @business.members.find_by(user_id: current_user.id, roles: :admin).present?
-        flash[:alert] = "You do not have permission to perform this action."
-        redirect_to businesses_path
+        # flash[:alert] = "You do not have permission to perform this action."
+        redirect_to "/404"
       end
     end
 

@@ -4,7 +4,11 @@ Rails.application.routes.draw do
     post '/invite', to: 'businesses#invite', as: :invite
     # post '/resend_invitation', to: 'businesses#resend_invitation', as: :resend_invitation
     post '/resend_invitation/:member_id', to: 'businesses#resend_invitation', as: :resend_invitation
+    post '/cancel_invitation/:member_id', to: 'businesses#cancel_invitation', as: :cancel_invitation
+    delete 'businesses/:business_id/members/:id', to: 'businesses#remove_member', as: :remove_member
+
   end
+  
   devise_for :users
   
   get "dashboard", to: "dashboard#index"
