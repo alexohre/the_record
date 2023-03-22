@@ -50,7 +50,7 @@
 
           <% else %>
           <div class="d-flex align-items-start mb-3">
-            <%= member.user.email %> - <span class="badge bg-primary ms-2 me-1"> <%= member.roles.capitalize %></span>
+            <%= member.user.email %> - <span class="badge bg-primary ms-2 me-1"> <%= member.roles.capitalize %></span> <% if member.user.blocked? %>   <span class="badge bg-warning">Blocked</span><% end %>
             <% if @business.members.exists?(user_id: current_user.id, roles: "admin") %>
                 <% if member.user != current_user %>
                   <div class="dropdown">
@@ -61,7 +61,11 @@
                     </a>
 
                     <ul class="dropdown-menu">
-                        <%= link_to "Block #{member.user.email}", business_resend_invitation_path(@business, member.id), class: "dropdown-item text-warning", data: {turbo_method: :post} %> 
+                        <% if member.user.blocked? %>
+                          <%= link_to "Unblock #{member.user.email}", business_member_unblock_user_path(@business, member.id, email: member.user.email), class: "dropdown-item text-success", data: {turbo_method: :put, turbo_confirm: "Are you sure you want to unblock #{member.user.email}?" } %>
+                        <% else %>
+                          <%= link_to "Block #{member.user.email}", business_member_block_user_path(@business, member.id, email: member.user.email), class: "dropdown-item text-warning", data: {turbo_method: :put, turbo_confirm: "Are you sure you want to block #{member.user.email}?" } %>
+                        <% end %>
                         <%= link_to "Remove #{member.user.email}", business_remove_member_path(@business, member.id, email: member.user.email), class: "dropdown-item text-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure you want to remove #{member.user.email}?" } %>
                     </ul>
                   </div>

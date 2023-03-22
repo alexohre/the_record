@@ -89,31 +89,38 @@ class BusinessesController < ApplicationController
 
 
   
-  def cancel_invitation
+  def block_user
     @business = Business.find(params[:business_id])
-    email = params[:email]
+    member = @business.members.find(params[:member_id])
+    user = member.user
 
-    if email.present?
-      user = User.find_by_email(email)
-      if user.present?
-        if user.invitation_accepted_at.present?
-          flash[:alert] = "User has already accepted the invitation."
-        else
-          user.cancel_invitation(@business)
-          flash[:notice] = "Invitation for #{email} has been canceled."
-        end
-      else
-        flash[:alert] = "#{email} is not a registered user."
-      end
+    if user.present?
+      user.update(blocked: true)
+      BlockedStatusMailer.blocked_notice(user, @business).deliver_now
+      flash[:notice] = "#{member.user.email} has been blocked from the business."
     else
-      flash[:alert] = "Email is required."
+      flash[:alert] = "#{member.user.email} is not a member of the business."
     end
 
     redirect_to business_path(@business)
   end
 
 
+  def unblock_user
+    @business = Business.find(params[:business_id])
+    member = @business.members.find(params[:member_id])
+    user = member.user
 
+    if user.present?
+      user.update(blocked: false)
+      BlockedStatusMailer.unblocked_notice(user, @business).deliver_now
+      flash[:notice] = "#{member.user.email} has been unblocked from the business."
+    else
+      flash[:alert] = "#{member.user.email} is not a member of the business."
+    end
+
+    redirect_to business_path(@business)
+  end
 
 
   # POST /businesses or /businesses.json
