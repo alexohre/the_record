@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :businesses do
+    resources :products
     resources :members do
       put 'block', to: 'businesses#block_user', as: :block_user
       put 'unblock', to: 'businesses#unblock_user', as: :unblock_user

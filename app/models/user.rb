@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   has_many :members, dependent: :destroy
   has_many :business, through: :members
-
+  
+  # belongs_to :user
 end

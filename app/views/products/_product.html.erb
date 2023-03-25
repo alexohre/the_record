@@ -1,0 +1,37 @@
+<div id="<%= dom_id product %>">
+  <p>
+    <strong>Name:</strong>
+    <%= product.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= product.description %>
+  </p>
+
+  <p>
+    <strong>Price:</strong>
+    <%= number_to_currency(product.price, precision: 2, unit: "$", separator: ",", delimiter: ".") %>
+  </p>
+
+  <p>
+    <strong>Unit:</strong>
+    <%= product.unit %>
+  </p>
+
+  <p>
+    <strong>Sku:</strong>
+    <%= product.sku %>
+  </p>
+
+  <p>
+    <strong>Available:</strong>
+    <%= product.available %>
+  </p>
+
+  <%# <p> %>
+    <%# <strong>Business:</strong> %>
+    <%#= product.business_id %>
+  <%# </p> %>
+
+</div>

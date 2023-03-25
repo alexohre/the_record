@@ -1,0 +1,16 @@
+
+<h1>Products</h1>
+
+<div id="products">
+  <% @business.products.each do |product| %>
+    <%= render product %>
+    <p>
+      <%= link_to "Show this product", business_product_path(@business, product) %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New product", new_business_product_path, class: "btn btn-success" %>
+
+  <%= link_to "Back to business", business_path(@business), class: "btn btn-outline-secondary ms-2" %>
+
