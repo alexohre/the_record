@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class ProductsController < AuthController
   before_action :authenticate_user!
   before_action :set_business
   before_action :set_product, only: %i[ show edit update destroy ]

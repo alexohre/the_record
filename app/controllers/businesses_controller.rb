@@ -1,4 +1,4 @@
-class BusinessesController < ApplicationController
+class BusinessesController < AuthController
   before_action :authenticate_user!
   before_action :set_business, only: %i[ show edit update destroy ]
   before_action :set_auth, only: %i[ show edit update destroy ]

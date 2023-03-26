@@ -1,5 +1,7 @@
-class DashboardController < ApplicationController
+class DashboardController < AuthController
   before_action :authenticate_user!
+  
+
   def index
     @title = current_user.email + " dashboard"
     @user_agent = request.user_agent

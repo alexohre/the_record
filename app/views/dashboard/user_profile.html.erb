@@ -7,8 +7,30 @@
 
   <div class="col">
     <div class="row">
-      <div class="col">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nemo temporibus delectus ducimus at, commodi ratione nihil molestias modi? Tempora, maxime possimus at est soluta in veritatis ut ducimus impedit debitis?
+      <div class="col-sm-3 text-center">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <img src="https://media.wired.com/photos/62ccbecc4847c5414f1e3dc9/master/pass/Light-Photo-Video-Like-a-Pro-Gear-GettyImages-142009824.jpg" width="" height="180" alt="User Avatar" class="rounded-circle">
+              <h3 class="card-title mt-3"><%= current_user.full_name %></h3>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-text">First Name: <b><%= current_user.first_name %></b></p>
+            <p class="card-text">Last Name: <b><%= current_user.last_name %></b></p>
+            <p class="card-text">Email: <b><%= current_user.email %></b></p>
+            <p class="card-text">Date of Birth: <b><%= current_user.date_of_birth %></b></p>
+            <p class="card-text">Phone: 555-555-5555</p>
+            <p class="card-text">Address: 123 Main St, Anytown USA</p>
+            <a href="<%= edit_user_registration_path %>" class="btn btn-success btn-sm">Edit Profile</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

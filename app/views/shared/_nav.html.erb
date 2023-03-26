@@ -19,9 +19,9 @@
   <div class="col-md-3 text-end">
   <% if current_user %>
     <div class="dropdown float-end">
-      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      <a href="#" class="d-flex align-items-center link-body-emphasis text-success text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="https://media.wired.com/photos/62ccbecc4847c5414f1e3dc9/master/pass/Light-Photo-Video-Like-a-Pro-Gear-GettyImages-142009824.jpg" alt="" class="rounded-circle me-2" width="32" height="32">
-        <strong>Hi, John</strong>
+        <strong>Hi, <%= current_user.first_name.capitalize %></strong>
       </a>
       <ul class="dropdown-menu text-small shadow" style="">
         <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>

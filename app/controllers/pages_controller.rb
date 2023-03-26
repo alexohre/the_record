@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+class PagesController < AuthController
   def index
     @title = "Home"
   end
