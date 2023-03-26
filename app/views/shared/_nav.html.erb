@@ -18,7 +18,21 @@
 
   <div class="col-md-3 text-end">
   <% if current_user %>
-    <%= link_to "Sign Out", destroy_user_session_path, class: "btn btn-danger btn-sm ", data: {turbo_method: :delete, turbo_confirm: "Are you sure?..."} %>
+    <div class="dropdown float-end">
+      <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://media.wired.com/photos/62ccbecc4847c5414f1e3dc9/master/pass/Light-Photo-Video-Like-a-Pro-Gear-GettyImages-142009824.jpg" alt="" class="rounded-circle me-2" width="32" height="32">
+        <strong>Hi, John</strong>
+      </a>
+      <ul class="dropdown-menu text-small shadow" style="">
+        <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+        <%# <li><a class="dropdown-item" href="#">Settings</a></li> %>
+        <%= link_to "Settings", edit_user_registration_path, class: "dropdown-item" %>
+        <li><a class="dropdown-item" href="/account">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <%= link_to "Sign Out", destroy_user_session_path, class: "dropdown-item text-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?..."} %>
+      </ul>
+    </div>
+    <%#= link_to "Sign Out", destroy_user_session_path, class: "btn btn-danger btn-sm ", data: {turbo_method: :delete, turbo_confirm: "Are you sure?..."} %>
 
     <% else %>
     <%= link_to "Sign In", new_user_session_path, class: "btn btn-outline-primary me-2" %>

@@ -1,26 +1,37 @@
 
-<h1>Businesses</h1>
+<h1 class="mb-3">Businesses</h1>
 
 <div id="businesses">
   <div class="row">
-  <% @businesses.each do |business| %>
-  <div class="col-md-12 col-lg-6">
-    <div class="card mb-3" style="max-width: 540px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="https://images.unsplash.com/photo-1602934445884-da0fa1c9d3b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ298ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start img-thumbnail" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h4 class="card-title fw-bold"><%= business.name %></h4>
-            <p class="card-text">This is a wider card with supporting text below as a natural content.</p>
-            <p class="card-text"><small class="text-muted"><%= link_to "Show business", business %></small></p>
-          </div>
-        </div>
-      </div>
+    <div class="col-lg-3">
+      <%= render 'shared/sidebar' %>
     </div>
-   </div>
-  <% end %>
+    <div class="col">
+     <div class="row">
+      <% @businesses.each do |business| %>
+        <% if !current_user.business.exists? || !current_user.members.any? %>
+          you dont have any business
+          <% else %>
+          <div class="col-md-12 col-lg-6">
+            <div class="card mb-3" style="max-width: 540px;">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="https://images.unsplash.com/photo-1602934445884-da0fa1c9d3b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGxvZ298ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" class="img-fluid rounded-start img-thumbnail" alt="...">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h4 class="card-title fw-bold"><%= business.name %></h4>
+                    <p class="card-text">This is a wider card with supporting text below as a natural content.</p>
+                    <p class="card-text"><small class="text-muted"><%= link_to "Show business", business %></small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+     </div>
+    </div>
   </div>
 </div>
 

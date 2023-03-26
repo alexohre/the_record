@@ -130,7 +130,7 @@ class BusinessesController < ApplicationController
     respond_to do |format|
       if @business.save
         @business.members.create(user: current_user, roles: :admin)
-        format.html { redirect_to business_url(@business), notice: "Business was successfully created." }
+        format.html { redirect_to business_url(@business), notice: "#{@business.name} business was successfully created." }
         format.json { render :show, status: :created, location: @business }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -143,7 +143,7 @@ class BusinessesController < ApplicationController
   def update
     respond_to do |format|
       if @business.update(business_params)
-        format.html { redirect_to business_url(@business), notice: "Business was successfully updated." }
+        format.html { redirect_to business_url(@business), notice: "#{@business.name} business was successfully updated." }
         format.json { render :show, status: :ok, location: @business }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -157,7 +157,7 @@ class BusinessesController < ApplicationController
     @business.destroy
 
     respond_to do |format|
-      format.html { redirect_to businesses_url, notice: "Business was successfully destroyed." }
+      format.html { redirect_to businesses_url, notice: "#{@business.name} business was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   end
 
   devise_for :users
+
+  get "/account", to: "dashboard#user_profile"
   
   get "dashboard", to: "dashboard#index"
   root 'pages#index'

@@ -1,11 +1,7 @@
-<h1>Dashboard</h1>
+<h1 class="mb-3">Dashboard</h1>
+<%= render 'shared/admin_nav' %>
 
-
-
-
-<h2><%= current_user.id %></h2>
-<h2><%= current_user.email %></h2>
 
 <br>
 
-<%= link_to "businesses", businesses_path, class: "btn btn-success" %>
+<%= link_to "View Businesses", businesses_path, class: "btn btn-success" %>

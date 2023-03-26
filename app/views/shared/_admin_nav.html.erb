@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-lg-3">
+    <%= render 'shared/sidebar' %>
+  </div>
+
+
+<% if current_user.business.any? && current_user.members.exists?(roles: "admin") %>
+  <div class="col">
+    <div class="row">
+
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Total Staffs</h5>
+                <p class="card-text fs-2"><%= @total_users %></p>
+                <%# <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Total Businesses</h5>
+                <p class="card-text fs-2"><%= @business_count %></p>
+                <%# <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Greatings</h5>
+                <p class="card-text">Good Evening, <b class="badge bg-success"><%= current_user.email %></b></p>
+                <%# <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="card-title">Security <small class="badge bg-success border border-success rounded-pill">new</small></div>
+            <p class="card-text"><b>IP Address:</b> <%= current_user.current_sign_in_ip %></p>
+            <p class="card-text"><b>Browser:</b> <%= @user_agent %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+
+  <div class="col">
+    <div class="row">
+
+    
+      <div class="col">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Greatings</h5>
+                <p class="card-text">Good Evening, <br> <b class="badge bg-success"><%= current_user.email %></b></p>
+                <%# <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="card-title">Security <small class="badge bg-success border border-success rounded-pill">new</small></div>
+            <p class="card-text"><b>IP Address:</b> <%= current_user.current_sign_in_ip %></p>
+            <p class="card-text"><b>Browser:</b> <%= @user_agent %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <% end %>
+</div>

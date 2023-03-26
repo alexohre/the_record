@@ -1,0 +1,16 @@
+<div class="card">
+  <ul class="nav flex-column ps-3 pe-3 ">
+    <li class="nav-item">
+      <a class="nav-link  <%= "text-success" if request.path == dashboard_path%>" href="/dashboard">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= "text-success" if request.path == businesses_path%>" href="/businesses">View Businesses</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link <%= "text-success" if request.path == account_path%>"" href="/account">Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled">Disabled</a>
+    </li>
+  </ul>
+</div>
